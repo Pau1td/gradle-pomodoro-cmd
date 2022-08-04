@@ -15,6 +15,7 @@ public class Main {
         int sizework = 30;
         int help = 0;
         int count = 1;
+        int mnojitel = 2;
 
         for(int i=0; i < cmd.length;i++){
             switch (cmd[i]) {
@@ -28,18 +29,36 @@ public class Main {
                     System.out.println(
                             "	-count <count>: количество итераций.\n");
                     System.out.println(
+                            "	-m <mnojitel>: множитель.\n");
+
+
+                    System.out.println(
                             "	--help: меню помощи.\n");
                     help = 1;
                 }
                 case "-w" -> work = Integer.parseInt(cmd[++i]);
                 case "-b" -> breake = Integer.parseInt(cmd[++i]);
                 case "-count" -> count = Integer.parseInt(cmd[++i]);
+                case "-m" -> mnojitel = Integer.parseInt(cmd[++i]);
             }
         }
         if(help == 0){
             long startTime = System.currentTimeMillis();
+
+        /*
+        Добавьте функцию прогрессии для времени работы.
+        Т.е. есть параметр множитель и с каждой итерацией он увеличивает время работы.
+        Например, при параметрах -w 5 -b 5 -count 3 -m 2,
+        будем иметь на первой итерации 5 минут работы и 5 минут отдыха,
+        на второй 10 минут работы и 5 минут отдыха, на третьей 20 минут работы и 5 минут отдыха.
+         */
+
+            //для теста -w 1 -b 1 -count 3 -m 2
+
             for (int i = 1; i <= count; i++) {
-                timer(work, breake, sizebreak, sizework);
+
+                timer((int)Math.pow(mnojitel, (i-1))*work, breake, sizebreak, sizework);
+                System.out.println("Итерация: i=" + i + "; множитель прогрессии = " + (int)Math.pow(mnojitel, (i-1)) + "; время работы = " + (int)Math.pow(mnojitel, (i-1))*work + "; время отдыха = " + breake);
             }
             long endTime = System.currentTimeMillis();
             System.out.println("Pomodor таймер истек: " + (endTime-startTime)/(1000 * 60)+ " min");
